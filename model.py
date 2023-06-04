@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from data import features_df
+from data_dresden import features_df as features_df_dresden
 
 # Separate features and target variable
 x = features_df.iloc[:, :6]
