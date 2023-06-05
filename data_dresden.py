@@ -5,7 +5,7 @@ gdp_df = pd.read_csv('data/dresden/bip_dresden.csv', encoding="utf_8", encoding_
 unemployed_df = pd.read_csv('data/dresden/arbeitslosigkeit/dresden_arbeitslose_2011_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
 age_dist_df = pd.read_csv('data/dresden/alter/durchschnittsalter_2002-2020.csv', encoding="utf_8", encoding_errors="replace", sep=",")
 resident_df = pd.read_csv('data/dresden/einwohner/einwohner_dresden_1999_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
-
+total_births_df = pd.read_csv('data/dresden/geburten/geburten.csv')
 # gdp_df = pd.read_csv('./data/Wirtschaft_Bruttoinlandsprodukt und Bruttowertschöpfung.csv')
 # unemployed_df = pd.read_csv('./data/Erwerbstätigkeit und Arbeitsmarkt_Arbeitslose.csv')
 # age_dist_df = pd.read_csv('./data/Bevölkerungsbestand_Einwohner nach Alter.csv')
@@ -33,7 +33,7 @@ total_population = resident_df
 all_unemployed = unemployed_df
 avg_age = age_dist_df
 
-all_features = [gdp_per_inhabit, all_unemployed, avg_age, total_population]
+all_features = [gdp_per_inhabit, all_unemployed, avg_age, total_population, total_births_df]
 
 
 #gdp_per_inhabit, all_unemployed, avg_age, living_space_per_inhabit, total_population,
