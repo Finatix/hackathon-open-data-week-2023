@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 # Importing Data
 gdp_df = pd.read_csv('data/dresden/bip_dresden.csv', encoding="utf_8", encoding_errors="replace", sep=";")
-#unemployed_df = pd.read_csv('data/dresden/arbeitslosigkeit/dresden_arbeitslose_2011_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
+unemployed_df = pd.read_csv('data/dresden/arbeitslosigkeit/dresden_arbeitslose_2011_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
 resident_df = pd.read_csv('data/dresden/einwohner/einwohner_dresden_1999_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
 
 
@@ -23,7 +23,9 @@ gdp_per_inhabit = gdp_per_inhabit.drop('Jahr')
 
 total_population = resident_df
 
-all_features = [gdp_per_inhabit, total_population]
+all_unemployed = unemployed_df
+
+all_features = [gdp_per_inhabit, all_unemployed, total_population]
 
 #gdp_per_inhabit, all_unemployed, avg_age, living_space_per_inhabit, total_population,
                 #total_childbearing_women, total_births_df
