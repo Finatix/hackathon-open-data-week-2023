@@ -5,14 +5,9 @@ gdp_df = pd.read_csv('data/dresden/bip_dresden.csv', encoding="utf_8", encoding_
 unemployed_df = pd.read_csv('data/dresden/arbeitslosigkeit/dresden_arbeitslose_2011_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
 age_dist_df = pd.read_csv('data/dresden/alter/durchschnittsalter_2002-2020.csv', encoding="utf_8", encoding_errors="replace", sep=",")
 resident_df = pd.read_csv('data/dresden/einwohner/einwohner_dresden_1999_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
+total_childbearing_women = pd.read_csv('data/dresden/alter/frauen_gebaerfaehig.csv')
 total_births_df = pd.read_csv('data/dresden/geburten/geburten.csv')
-# gdp_df = pd.read_csv('./data/Wirtschaft_Bruttoinlandsprodukt und Bruttowertschöpfung.csv')
-# unemployed_df = pd.read_csv('./data/Erwerbstätigkeit und Arbeitsmarkt_Arbeitslose.csv')
-# age_dist_df = pd.read_csv('./data/Bevölkerungsbestand_Einwohner nach Alter.csv')
-# housing_stock_df = pd.read_csv('./data/Bautätigkeit und Wohnen_Wohnungsbestand.csv')
-# resident_df = pd.read_csv('./data/Bevölkerungsbestand_Einwohner.csv')
-# total_births_df = pd.read_json('./data/Geburten.json', orient='index').transpose().astype(str)
-# total_births_df.columns = total_births_df.columns.astype(str)
+
 
 
 #switching x and y
@@ -22,7 +17,7 @@ gdp_df = gdp_df.transpose()
 gdp_df.columns = gdp_df.iloc[0]
 
 #fix datatype
-all_dfs = [gdp_df, unemployed_df, resident_df, age_dist_df]
+all_dfs = [gdp_df, unemployed_df, age_dist_df, resident_df, total_childbearing_women, total_births_df]
 for df in all_dfs:
     df = df.astype(float, errors="ignore")
 
@@ -33,11 +28,7 @@ total_population = resident_df
 all_unemployed = unemployed_df
 avg_age = age_dist_df
 
-all_features = [gdp_per_inhabit, all_unemployed, avg_age, total_population, total_births_df]
-
-
-#gdp_per_inhabit, all_unemployed, avg_age, living_space_per_inhabit, total_population,
-                #total_childbearing_women, total_births_df
+all_features = [gdp_per_inhabit, all_unemployed, avg_age, total_population, total_childbearing_women, total_births_df]
 
 # Data Cleaning
 
@@ -55,6 +46,5 @@ for df in all_features:
 features_df = pd.concat(all_features, ignore_index=True)
 features_df.reset_index(drop=True, inplace=True)
 features_df = features_df.transpose()
-features_df.iloc[:, 2:4] = features_df.iloc[:, 2:4].replace(',', '.', regex=True).astype(float)
-
+features_df.iloc[:, :] = features_df.iloc[:, :].replace(',', '.', regex=True).astype(float)
 
