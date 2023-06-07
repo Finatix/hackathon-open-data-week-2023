@@ -30,7 +30,14 @@ for df in all_features:
         df.drop(columns=columns_present, inplace=True)
 
 # Building the Features Dataframe
-features_df = pd.concat(all_features)
-features_df.reset_index(drop=True, inplace=True)
-features_df = features_df.transpose()
-features_df.iloc[:, 2:4] = features_df.iloc[:, 2:4].replace(',', '', regex=True).astype(float)
+features_df_leipzig = pd.concat(all_features)
+features_df_leipzig.reset_index(drop=True, inplace=True)
+features_df_leipzig = features_df_leipzig.transpose()
+features_df_leipzig.iloc[:, 2:4] = features_df_leipzig.iloc[:, 2:4].replace(',', '', regex=True).astype(float)
+
+# Giving appropriate names
+new_column_names = {0: 'BIP/Einwohner', 1: 'Anzahl Arbeitsloser', 2: 'Durchschnittsalter', 3: 'Wohnraum/Einwohner',
+                    4: 'Gesamtpopulation', 5: 'Anzahl Frauen im geb. fähigen Alter', 6: 'Anzahl der Geburten'}
+
+features_df_leipzig = features_df_leipzig.rename(columns=new_column_names)
+features_df_leipzig['Stadt'] = 'Leipzig'

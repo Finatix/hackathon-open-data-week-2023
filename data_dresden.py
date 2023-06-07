@@ -1,22 +1,23 @@
 import pandas as pd
-import numpy as np
+
 # Importing Data
 gdp_df = pd.read_csv('data/dresden/bip_dresden.csv', encoding="utf_8", encoding_errors="replace", sep=";")
-unemployed_df = pd.read_csv('data/dresden/arbeitslosigkeit/dresden_arbeitslose_2011_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
-age_dist_df = pd.read_csv('data/dresden/alter/durchschnittsalter_2002-2020.csv', encoding="utf_8", encoding_errors="replace", sep=",")
-resident_df = pd.read_csv('data/dresden/einwohner/einwohner_dresden_1999_2022.csv', encoding="utf_8", encoding_errors="replace", sep=",")
+unemployed_df = pd.read_csv('data/dresden/arbeitslosigkeit/dresden_arbeitslose_2011_2022.csv', encoding="utf_8",
+                            encoding_errors="replace", sep=",")
+age_dist_df = pd.read_csv('data/dresden/alter/durchschnittsalter_2002-2020.csv', encoding="utf_8",
+                          encoding_errors="replace", sep=",")
+resident_df = pd.read_csv('data/dresden/einwohner/einwohner_dresden_1999_2022.csv', encoding="utf_8",
+                          encoding_errors="replace", sep=",")
 total_childbearing_women = pd.read_csv('data/dresden/alter/frauen_gebaerfaehig.csv')
 total_births_df = pd.read_csv('data/dresden/geburten/geburten.csv')
 
-
-
-#switching x and y
+# switching x and y
 gdp_df = gdp_df.transpose()
 
-#fix naming of columns
+# fix naming of columns
 gdp_df.columns = gdp_df.iloc[0]
 
-#fix datatype
+# fix datatype
 all_dfs = [gdp_df, unemployed_df, age_dist_df, resident_df, total_childbearing_women, total_births_df]
 for df in all_dfs:
     df = df.astype(float, errors="ignore")
@@ -40,11 +41,19 @@ for df in all_features:
     columns_present = set(df.columns).intersection(columns_to_drop)
     if columns_present:
         df.drop(columns=columns_present, inplace=True)
-    df.columns = years.columns #fixes formatting of column labels
+    df.columns = years.columns  # fixes formatting of column labels
 
 # Building the Features Dataframe
-features_df = pd.concat(all_features, ignore_index=True)
-features_df.reset_index(drop=True, inplace=True)
-features_df = features_df.transpose()
-features_df.iloc[:, :] = features_df.iloc[:, :].replace(',', '.', regex=True).astype(float)
+features_df_dresden = pd.concat(all_features, ignore_index=True)
+features_df_dresden.reset_index(drop=True, inplace=True)
+features_df_dresden = features_df_dresden.transpose()
+features_df_dresden.iloc[:, :] = features_df_dresden.iloc[:, :].replace(',', '.', regex=True).astype(float)
 
+new_column_names = {0: 'BIP/Einwohner', 1: 'Anzahl Arbeitsloser', 2: 'Durchschnittsalter',
+                    3: 'Gesamtpopulation', 4: 'Anzahl Frauen im geb. fähigen Alter', 5: 'Anzahl der Geburten'}
+
+features_df_dresden = features_df_dresden.rename(columns=new_column_names)
+
+features_df_dresden.dropna(inplace=True)
+
+features_df_dresden['Stadt'] = 'Dresden'
